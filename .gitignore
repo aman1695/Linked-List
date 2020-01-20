@@ -637,4 +637,183 @@ class Codechef
 		
 	}
 }
+///////////////////////////////////Recursive Reverse////////////////////////////////////////////////////////////////////////////////////
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package codechef;
+
+/**
+ *
+ * @author Aman.Gupta6
+ */
+import java.util.*;
+import java.lang.*;
+import java.io.*;
+ class Node{
+    private int data;
+    private Node next;
+    public Node(){
+        data = 0;
+        next = null;
+    }
+    public Node(int d, Node n){
+	    data = d;
+		next = n;
+	}
+	public void setData(int d){
+	    data = d;
+	}
+	public void setNext(Node n){
+	    next = n;
+	}
+	public int getData(){
+	    return(data);
+	}
+	public Node getNext(){
+	    return(next);
+	}
+}
+class LinkedList{
+    private Node start;
+	private int size;
+	public LinkedList(){
+	    start = null;
+		size = 0;
+	}
+	public Node getStart(){
+	    return this.start;
+	}
+	public void insertATFirst(int val){
+	    Node n = new Node();
+		n.setData(val);
+		n.setNext(start);
+		start = n;
+		size++;
+	}
+	public void insertATLast(int val){
+	    Node n = new Node();
+		n.setData(val);
+		Node t = start;
+		if(t == null){
+		    start = n;
+		}else{
+		    while(t.getNext() != null){
+		        t = t.getNext();
+		    }
+			t.setNext(n);
+		}
+		size++;
+	}
+	public void insertATPos(int val, int pos){
+	    Node n = new Node();
+		n.setData(val);
+		if(pos == 1){
+		    insertATFirst(val);
+		}else if(pos == size+1){
+		    insertATLast(val);
+		}else if(pos>1 && pos<=size){
+		    Node t = start;
+		    for(int i=1; i<pos-1; i++){
+		        t = t.getNext();				
+		    }
+			n.setNext(t.getNext());
+			t.setNext(n);
+		    size++;
+		}
+	}
+	public boolean isEmpty(){
+	    if(start == null){
+		    return true;
+		}else{
+		    return false;
+		}
+	}
+	public int getListSize(){
+	    Node t = start;
+		int size = 0;
+		while(t != null){
+		    size++;
+			t= t.getNext();
+		}
+	    return size;
+	}
+	public void viewList(Node head){
+	    Node t;
+		t = head;
+		if(t==null)
+		    System.out.print("List is Empty");
+		else
+		    while(t.getNext() != null){
+		        System.out.print(t.getData());
+			    t = t.getNext();
+		    }
+                    System.out.print(t.getData());
+		  //  for(int i=0; i<size; i++){
+		  //      System.out.print(t.getData());
+			 //   t = t.getNext();
+		  //  }
+	}
+	public void removeDuplicates() { 
+        Node t1 = null, t2 = null, dup = null; 
+        t1 = start; 
+        while (t1 != null && t1.getNext() != null) { 
+            t2 = t1; 
+            while (t2.getNext() != null) { 
+                if (t1.getData() == t2.getNext().getData()) { 
+                    dup = t2.getNext(); 
+                    t2.setNext(t2.getNext().getNext());  
+                    size--;
+                } else { 
+                    t2 = t2.getNext(); 
+                } 
+            } 
+            t1 = t1.getNext(); 
+        } 
+    }
+    public void reverseLIst(){
+        Node n = null, p = null; 
+        Node c = start; 
+        while (c != null) {
+            n = c.getNext();
+            c.setNext(p);
+            p = c;
+            c = n;
+        }
+        start = p;
+        
+    }
+	public Node recursiveReverseList(Node node, Node prev){
+		if(node.getNext() == null){
+                        node.setNext(prev);
+			return node;
+		}
+			Node n = node.getNext();
+			node.setNext(prev);
+			return recursiveReverseList(n,node);
+		
+	}
+}
+/* Name of the class has to be "Main" only if the class is public. */
+class Codechef
+{
+	public static void main (String[] args) throws java.lang.Exception
+	{
+		LinkedList list = new LinkedList();
+		list.insertATLast(2);
+		list.insertATLast(1);
+		list.insertATLast(4);
+		list.insertATLast(2);
+		list.insertATLast(3);
+		list.insertATLast(4);
+		list.insertATLast(1);
+		list.insertATLast(1);
+		list.reverseLIst();
+		Node head = list.recursiveReverseList(list.getStart(),null);
+		list.viewList(head);
+		
+	}
+}
 
